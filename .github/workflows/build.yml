@@ -36,17 +36,15 @@ jobs:
       # -------------------------------
       # Android SDK + NDK
       # -------------------------------
-      - name: Install Android SDK Command-line tool
-      run: |
-       mkdir -p $HOME/Android/Sdk/cmdline-tools
-       cd $HOME/Android/Sdk
+      - name: Install Android SDK Command-line tools
+        run: |
+         mkdir -p $HOME/Android/Sdk/cmdline-tools
+         cd $HOME/Android/Sdk
 
-       wget https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip -O cmdline.zip
-       unzip -q cmdline.zip
-
-    # The zip extracts into "cmdline-tools"
-       mv cmdline-tools $HOME/Android/Sdk/cmdline-tools/latest
-
+         wget https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip -O cmdline.zip
+         unzip -q cmdline.zip
+         mv cmdline-tools $HOME/Android/Sdk/cmdline-tools/latest
+         
       - name: Set Android environment variables
         run: |
           echo "ANDROID_SDK_ROOT=$HOME/Android/Sdk" >> $GITHUB_ENV
