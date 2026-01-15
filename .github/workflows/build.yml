@@ -41,19 +41,18 @@ jobs:
          "platforms;android-33" \
          "build-tools;33.0.2" \
          "platform-tools"
-      - name: Setup Android SDK (FIX)
+      - name: Configure Android SDK path (FIXED)
         run: |
-         export ANDROID_SDK_ROOT=/github/home/Android/Sdk
-         export ANDROID_HOME=/github/home/Android/Sdk
+         echo "ANDROID_HOME=/opt/android-sdk" >> $GITHUB_ENV
+         echo "ANDROID_SDK_ROOT=/opt/android-sdk" >> $GITHUB_ENV
 
+      - name: Ensure Android SDK components
+        run: |
          yes | sdkmanager --licenses
-
          sdkmanager \
           "platform-tools" \
           "platforms;android-33" \
-          "platforms;android-34" \
-          "build-tools;33.0.2" \
-          "build-tools;34.0.0"
+          "build-tools;33.0.2"
       # ---------------------------
       # Android release export
       # ---------------------------
@@ -63,8 +62,8 @@ jobs:
          godot --headless --export-release "Android" build/android-release.apk
         env:
          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-         ANDROID_HOME: /github/home/Android/Sdk
-         ANDROID_SDK_ROOT: /github/home/Android/Sdk
+         ANDROID_HOME: /opt/android-sdk
+         ANDROID_SDK_ROOT: /opt/android-sdk
          GODOT_ANDROID_KEYSTORE_PATH: release.keystore
          GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
          GODOT_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
