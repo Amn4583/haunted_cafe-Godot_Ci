@@ -1,77 +1,38 @@
-name: Android Release Export
+name: Export Godot (godot-ci)
 
 on:
   push:
-    tags:
-      - "v*"
-  workflow_dispatch: 
+    branches: [ "main" ]
+  workflow_dispatch:
+
 jobs:
-  android:
+  export:
     runs-on: ubuntu-latest
 
+    env:
+      GODOT_VERSION: "4.5"    # For use inside commands
+      EXPORT_NAME: "MyGame"
+
     container:
-      image: barichello/godot-ci:4.5-android
+      image: barichello/godot-ci:4.5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # ---------------------------
-      # Install Java (REQUIRED)
-      # ---------------------------
-      - name: Install Java
+      - name: Setup Godot export templates
         run: |
-          apt update
-          apt install -y openjdk-17-jdk
+          mkdir -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
+             ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
-      # ---------------------------
-      # Install Godot export templates
-      # ---------------------------
-      - name: Install Godot export templates
+      - name: Export Windows
         run: |
-         mkdir -p ~/.local/share/godot/export_templates
-         wget https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz
-         unzip Godot_v4.5-stable_export_templates.tpz -d ~/.local/share/godot/export_templates
-         mv ~/.local/share/godot/export_templates/templates \
-         ~/.local/share/godot/export_templates/4.5.stable
-      
-      - name: Install required Android SDK components
-        run: |
-         yes | sdkmanager --licenses
-         sdkmanager \
-         "platforms;android-33" \
-         "build-tools;33.0.2" \
-         "platform-tools"
-      - name: Configure Android SDK path (FIXED)
-        run: |
-         echo "ANDROID_HOME=/opt/android-sdk" >> $GITHUB_ENV
-         echo "ANDROID_SDK_ROOT=/opt/android-sdk" >> $GITHUB_ENV
+          mkdir -p build/windows
+          godot --headless --verbose --export-release "Windows Desktop" "build/windows/${EXPORT_NAME}.exe"
 
-      - name: Ensure Android SDK components
-        run: |
-         yes | sdkmanager --licenses
-         sdkmanager \
-          "platform-tools" \
-          "platforms;android-33" \
-          "build-tools;33.0.2"
-      # ---------------------------
-      # Android release export
-      # ---------------------------
-      - name: Export Android APK (Release)
-        run: |
-         mkdir -p build
-         godot --headless --export-release "Android" build/android-release.apk
-        env:
-         JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-         ANDROID_HOME: /opt/android-sdk
-         ANDROID_SDK_ROOT: /opt/android-sdk
-         GODOT_ANDROID_KEYSTORE_PATH: release.keystore
-         GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-         GODOT_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-         GODOT_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-      # ---------------------------
-      # Upload build
-      # ---------------------------
-      - uses: actions/upload-artifact@v4
+      - name: Upload builds
+        uses: actions/upload-artifact@v4
         with:
-          name: android-release
+          name: ${{ env.EXPORT_NAME }}-builds
           path: build/
