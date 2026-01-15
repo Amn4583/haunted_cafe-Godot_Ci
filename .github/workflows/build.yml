@@ -5,30 +5,52 @@ on:
     tags:
       - "v*"
   workflow_dispatch: 
-
 jobs:
-  android-release:
+  android:
     runs-on: ubuntu-latest
 
     container:
-      image: barichello/godot-ci:4.5
+      image: barichello/godot-ci:4.5.0
 
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Export Android Release
+      # ---------------------------
+      # Install Java (REQUIRED)
+      # ---------------------------
+      - name: Install Java
+        run: |
+          apt update
+          apt install -y openjdk-17-jdk
+
+      # ---------------------------
+      # Install Godot export templates
+      # ---------------------------
+      - name: Install export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates
+          wget https://downloads.tuxfamily.org/godotengine/4.5/Godot_v4.5-stable_export_templates.tpz
+          unzip Godot_v4.5-stable_export_templates.tpz -d ~/.local/share/godot/export_templates
+          mv ~/.local/share/godot/export_templates/templates ~/.local/share/godot/export_templates/4.5.stable
+
+      # ---------------------------
+      # Android release export
+      # ---------------------------
+      - name: Export Android APK (Release)
         run: |
           mkdir -p build
           godot --headless --export-release "Android" build/android-release.apk
         env:
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
           GODOT_ANDROID_KEYSTORE_PATH: release.keystore
           GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           GODOT_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           GODOT_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Upload Android build
-        uses: actions/upload-artifact@v4
+      # ---------------------------
+      # Upload build
+      # ---------------------------
+      - uses: actions/upload-artifact@v4
         with:
           name: android-release
           path: build/
