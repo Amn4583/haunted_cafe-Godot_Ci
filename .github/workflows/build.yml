@@ -27,14 +27,14 @@ jobs:
       # Install Godot export templates
       # ---------------------------
       - name: Install Godot export templates
-       run: |
-        mkdir -p ~/.local/share/godot/export_templates
-        curl -L --retry 5 --retry-delay 5 \
-        https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz \
-        -o templates.tpz
-        unzip templates.tpz -d ~/.local/share/godot/export_templates
-        mv ~/.local/share/godot/export_templates/templates \
-        ~/.local/share/godot/export_templates/4.5.stable
+        run: |
+         mkdir -p ~/.local/share/godot/export_templates
+         curl -L --retry 5 --retry-delay 5 \
+         https://github.com/godotengine/godot/releases/download/4.5-stable/Godot_v4.5-stable_export_templates.tpz \
+         -o templates.tpz
+         unzip templates.tpz -d ~/.local/share/godot/export_templates
+         mv ~/.local/share/godot/export_templates/templates \
+         ~/.local/share/godot/export_templates/4.5.stable
       # ---------------------------
       # Android release export
       # ---------------------------
