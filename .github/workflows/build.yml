@@ -33,6 +33,14 @@ jobs:
          unzip Godot_v4.5-stable_export_templates.tpz -d ~/.local/share/godot/export_templates
          mv ~/.local/share/godot/export_templates/templates \
          ~/.local/share/godot/export_templates/4.5.stable
+      
+      - name: Install required Android SDK components
+        run: |
+         yes | sdkmanager --licenses
+         sdkmanager \
+         "platforms;android-33" \
+         "build-tools;33.0.2" \
+         "platform-tools"
       # ---------------------------
       # Android release export
       # ---------------------------
