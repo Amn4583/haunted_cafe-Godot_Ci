@@ -1,0 +1,68 @@
+keys,en,hi
+CALL_1,"[b][color=green]Boss: [/color][/b]Hello? Ah, you must be the new guy for the night shift, right? I was waiting for your call.","[b][color=green]बॉस: [/color][/b]हैलो? अरे, तुम नाइट शिफ्ट के लिए नए आदमी होगे, है ना? मैं तुम्हारे फ़ोन का इंतज़ार कर रहा था।"
+CALL_2,[b][color=orange]Me: [/color][/b]Uh.. Yes.,[b][color=orange]मैं: [/color][/b]उह.. हाँ।
+CALL_3,"[b][color=green]Boss: [/color][/b]So listen carefully, hmm? The work here’s simple. Customers might come in for printouts, photocopies, sometimes lamination — all normal stuff.","[b][color=green]बॉस: [/color][/b]तो ध्यान से सुनो, हम्म? यहाँ काम आसान है। ग्राहक प्रिंटआउट, फोटोकॉपी, कभी-कभी लेमिनेशन के लिए आते हैं - सब सामान्य काम।"
+CALL_4,"[b][color=green]Boss: [/color][/b]If someone asks for any government forms — PAN, Aadhar, Ration, all that — there’s a code list pasted on the wall near the printer. Just check the code, type it in the print app, and print the right form. Easy.","[b][color=green]बॉस: [/color][/b]अगर कोई आपसे कोई सरकारी फ़ॉर्म मांगता है—पैन, आधार, राशन वगैरह—तो प्रिंटर के पास दीवार पर एक कोड लिस्ट लगी होती है। बस कोड चेक करें, प्रिंट ऐप में टाइप करें और सही फ़ॉर्म प्रिंट कर लें। आसान है।"
+CALL_5,"[b][color=green]Boss: [/color][/b]Oh, and before closing, sweep the shop properly. Dust gathers fast here, especially near the storeroom.","[b][color=green]बॉस: [/color][/b]ओह, और दुकान बंद करने से पहले अच्छी तरह झाड़ू लगा लेना। यहाँ धूल जल्दी जम जाती है, खासकर स्टोर रूम के पास।"
+CALL_6,[b][color=green]Boss: [/color][/b]You will find the broom near the entrance.,[b][color=green]बॉस: [/color][/b]आपको झाड़ू प्रवेश द्वार के पास मिलेगी।
+CALL_7,"[b][color=green]Boss: [/color][/b]Theres a storeroom which always stays locked, by the way. Nothing useful inside. Don’t open it.","[b][color=green]बॉस: [/color][/b]वैसे, एक स्टोररूम है जो हमेशा बंद रहता है। अंदर कोई काम की चीज़ नहीं है। उसे मत खोलना।"
+CALL_8,[b][color=green]Boss: [/color][/b]I’ll drop by in the morning to check the cash counter and refill the paper stack.,[b][color=green]बॉस: [/color][/b]मैं सुबह कैश काउंटर चेक करने और पेपर स्टैक को फिर से भरने के लिए आऊंगा।
+CALL_9,"[b][color=green]Boss: [/color][/b]It gets quiet after midnight… sometimes you’ll even hear the shop creak. Don’t worry, it’s just old furniture.","[b][color=green]बॉस: [/color][/b]आधी रात के बाद यहाँ सन्नाटा छा जाता है... कभी-कभी तो दुकान की चरमराहट भी सुनाई देती है। चिंता मत करो, ये बस पुराना फ़र्नीचर है।"
+CALL_10,"[b][color=green]Boss: [/color][/b]Alright then, handle things calmly. Keep the place clean, treat the customers well — and remember, the sweeping part... it keeps the place calm.","[b][color=green]बॉस: [/color][/b]ठीक है, तो शांति से काम करो। जगह साफ़ रखो, ग्राहकों के साथ अच्छा व्यवहार करो — और याद रखो, झाड़ू लगाने का काम... जगह को शांत रखता है।"
+CALL_11,[b][color=orange]Me: [/color][/b]Understood.,[b][color=orange]मैं: [/color][/b]समझ गया।
+,,
+JRNL_TIT_1,List of Document Types,दस्तावेज़ प्रकारों की सूची
+JRNL_NAME_1,Read,पढ़ें
+JRNL_CONT_1,"1. Aadhaar Update Form: 
+IND-982-AUH
+
+2. PAN Application: 
+PAN-XZs1-92K
+
+3.	Voter ID Registration Form:
+VOTER6-IN-4310A
+
+4. Driving License Application:
+DLF4-REG-8723T
+
+5. Income Certificate Form: 
+INC-CTF-9135G
+
+6. Caste Certificate Form:
+CASTE-VA12-777E","1. आधार अपडेट फ़ॉर्म:
+IND-982-AUH
+
+2. पैन आवेदन:
+PAN-XZs1-92K
+
+3. मतदाता पहचान पत्र पंजीकरण फ़ॉर्म:
+VOTER6-IN-4310A
+
+4. ड्राइविंग लाइसेंस आवेदन:
+DLF4-REG-8723T
+
+5. आय प्रमाण पत्र फ़ॉर्म:
+INC-CTF-9135G
+
+6. जाति प्रमाण पत्र फ़ॉर्म:
+CASTE-VA12-777E"
+TASK_1,Answer the phone call.,कॉल उठाएं।
+TASK_2,Clean the shop.,दुकान साफ करो।
+TASK_3,Serve the customers.,ग्राहकों की सेवा करें।
+THOUGHT_1,"[b][color=FFA500]Me: [/color][/b]Finally, after a long time.. I got a job.","[b][color=FFA500]मैं: [/color][/b]आखिरकार, लंबे समय के बाद.. मुझे नौकरी मिल गई।"
+THOUGHT_2,[b][color=FFA500]Me: [/color][/b]Now my father won't say that I am useless.,[b][color=FFA500]मैं: [/color][/b]अब मेरे पिता यह नहीं कहेंगे कि मैं बेकार हूँ।
+THOUGHT_3,[b][color=FFA500]Me: [/color][/b]Alright... seems easy enough.,[b][color=FFA500]मैं: [/color][/b]ठीक है...काफी आसान लगता है।
+THOUGHT_4,"[b][color=FFA500]Me: [/color][/b]Ah, the customers are arriving. I need to serve them.","[b][color=FFA500]मैं: [/color][/b]आह, ग्राहक आ रहे हैं। मुझे उनकी सेवा करनी है।"
+THOUGHT_5,[b][color=FFA500]Me: [/color][/b]I have nothing to throw away.,[b][color=FFA500]मैं: [/color][/b]मेरे पास फेंकने के लिए कुछ भी नहीं है।
+INT_SEAL,Seal,बंद करे।
+INT_UNSEAL,Unseal,खोले।
+INT_PHONE,Pickup,फोन उठाएं।
+INT_GRAB,Grab,इसे लें।
+INT_DROP,Drop,इसे रखें।
+INT_DUSTBIN,Dustbin,कूड़ेदान।
+NPC_1-1,[b][color=yellow]Customer: [/color][/b]Hello! I need to print an Aadhaar correction form..,
+NPC_1-2,,
+NPC_1-3,,
+NPC_1-4,,
+NPC_1-5,,
+NPC_1-6,,

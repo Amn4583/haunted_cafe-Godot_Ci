@@ -1,0 +1,191 @@
+[gd_scene load_steps=21 format=3 uid="uid://6xvciexry20n"]
+
+[ext_resource type="Script" uid="uid://c2s6xp56et26j" path="res://Scripts/character.gd" id="1_ushfy"]
+[ext_resource type="AudioStream" uid="uid://ctnmp6kqkt0nm" path="res://Sfx/Effects/footsteps-on-wood-397989.mp3" id="2_le1tg"]
+[ext_resource type="Script" uid="uid://d4l1n8u1ejb4d" path="res://Scripts/camera_bob.gd" id="2_owm7s"]
+[ext_resource type="Script" uid="uid://dm7jbwmtl730t" path="res://Scripts/smooth_flashlight.gd" id="4_2mse5"]
+[ext_resource type="Texture2D" uid="uid://dpt70fwywbvsf" path="res://addons/Joystick/joystick_tip.png" id="5_ejsiy"]
+[ext_resource type="AudioStream" uid="uid://dyijllqg1uvqe" path="res://Sfx/Effects/457463__rudmer_rotteveel__small_flashlight_click_on_02.wav" id="6_l1rcp"]
+[ext_resource type="Script" uid="uid://i6i3eyid7sr5" path="res://Scripts/Interactibles/smooth_hand.gd" id="7_le1tg"]
+[ext_resource type="FontFile" uid="uid://cmif16a78f05y" path="res://Fonts/VCR_OSD_MONO_1.001.ttf" id="8_7iw6i"]
+[ext_resource type="Texture2D" uid="uid://b2fydcuulvot2" path="res://Assets/UI/cross_hair.png" id="8_le1tg"]
+[ext_resource type="Script" uid="uid://l41cjxj5xkjw" path="res://Scripts/Interactibles/broom_system.gd" id="8_wbia7"]
+[ext_resource type="PackedScene" uid="uid://cuwgrxu8yjina" path="res://Assets/Models/Furniture/broome.glb" id="9_wbia7"]
+[ext_resource type="Texture2D" uid="uid://c5fb0kinnbaiw" path="res://Assets/3Ds/dust.png" id="10_kq7hj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2nq8a"]
+radius = 0.25
+height = 1.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1myeu"]
+radius = 0.25
+height = 1.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wbia7"]
+size = Vector3(4.841, 5.022, 10.849)
+
+[sub_resource type="Gradient" id="Gradient_kq7hj"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7iw6i"]
+gradient = SubResource("Gradient_kq7hj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kq7hj"]
+initial_velocity_min = 0.19999999
+initial_velocity_max = 0.59999996
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_over_velocity_min = 0.5
+scale_over_velocity_max = 1.0
+color_ramp = SubResource("GradientTexture1D_7iw6i")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kq7hj"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.39215687)
+albedo_texture = ExtResource("10_kq7hj")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_l1rcp"]
+material = SubResource("StandardMaterial3D_kq7hj")
+size = Vector2(0.5, 0.5)
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1289603956]
+script = ExtResource("1_ushfy")
+
+[node name="body" type="CollisionShape3D" parent="." unique_id=1695440934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.770745, 0)
+shape = SubResource("CapsuleShape3D_2nq8a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body" unique_id=1579004681]
+visible = false
+mesh = SubResource("CapsuleMesh_1myeu")
+skeleton = NodePath("../..")
+
+[node name="head" type="Node3D" parent="." unique_id=767105544]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4574152, 0)
+
+[node name="Walking sound" type="AudioStreamPlayer3D" parent="." unique_id=1213511700]
+stream = ExtResource("2_le1tg")
+
+[node name="ambience sound" type="AudioStreamPlayer2D" parent="." unique_id=1384473456]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=393237672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5933312, 0)
+fov = 55.0
+script = ExtResource("2_owm7s")
+bob_speed = 16.0
+bob_intensity = 0.1
+tilt_intensity = 0.1
+
+[node name="pick_up_ray" type="RayCast3D" parent="Camera3D" unique_id=354916563 groups=["Raycast"]]
+target_position = Vector3(0, 0, -1.5)
+collision_mask = 16
+
+[node name="ray_spring" type="SpringArm3D" parent="Camera3D" unique_id=279290734]
+spring_length = -1.0
+
+[node name="pick_up_pos" type="Marker3D" parent="Camera3D/ray_spring" unique_id=242852837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.01778)
+gizmo_extents = 0.01
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D" unique_id=240772060]
+visible = false
+shadow_enabled = true
+shadow_opacity = 0.0
+shadow_blur = 0.95
+spot_range = 3.0
+spot_angle = 28.11
+script = ExtResource("4_2mse5")
+follow_speed = 10.0
+fluctuation_strength = 0.001
+flicker_intensity = 0.01
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D/SpotLight3D" unique_id=479647235]
+light_energy = 0.1
+light_specular = 0.0
+
+[node name="flashlight" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=928158604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01904583, -0.29302216)
+stream = ExtResource("6_l1rcp")
+
+[node name="Hand" type="Node3D" parent="Camera3D" unique_id=867080045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.042701125, -0.039603114, -0.098982245)
+script = ExtResource("7_le1tg")
+
+[node name="Crosshair" type="CanvasLayer" parent="." unique_id=1658205763]
+
+[node name="crosshair" type="TextureRect" parent="Crosshair" unique_id=733897759]
+modulate = Color(18.892157, 18.892157, 18.892157, 0.33900002)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_le1tg")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="dynamic_cross" type="TextureRect" parent="Crosshair" unique_id=2079140184]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_ejsiy")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="interact_data" type="Label" parent="Crosshair" unique_id=1651342650]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_7iw6i")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="broom_and_buscket_grp" type="CharacterBody3D" parent="." unique_id=1966895563 groups=["broom"]]
+transform = Transform3D(-1.0927848e-09, -0.0001308991, -0.024999658, 0, 0.024999658, -0.0001308991, 0.025, -5.7217816e-12, -1.0927698e-09, 0.152, -0.0026233196, -0.34734234)
+visible = false
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("8_wbia7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="broom_and_buscket_grp" unique_id=68627194]
+transform = Transform3D(0.99999976, -1.4901161e-08, 9.80549e-13, -3.066991e-15, 1, -4.656613e-10, 0, 4.6566195e-10, 1, -0.24350357, 2.8403447, -0.01492548)
+shape = SubResource("BoxShape3D_wbia7")
+
+[node name="broome" parent="broom_and_buscket_grp" unique_id=974729286 instance=ExtResource("9_wbia7")]
+transform = Transform3D(-2.0107238e-06, 0, 46, 0, 46, 0, -46, 0, -2.0107238e-06, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="broom_and_buscket_grp" unique_id=1425012208]
+transform = Transform3D(1, 0, 3.5527137e-15, -1.3877788e-17, 1, 1.0004146e-17, 0, 1.0004144e-17, 1, 0, 5.1338644, -0.026881218)
+amount = 5
+lifetime = 0.5
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_kq7hj")
+draw_pass_1 = SubResource("QuadMesh_l1rcp")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="JournalData" load_steps=3 format=3 uid="uid://bit7b34xyehe5"]
+
+[ext_resource type="Script" uid="uid://ccc5ut1f7f8en" path="res://Scripts/Automatic Systems/JournalData.gd" id="1_qcggo"]
+[ext_resource type="Texture2D" uid="uid://dtgp3acpa507c" path="res://Assets/Models/Papers/JournalTextures/document-types.png" id="1_rbhft"]
+
+[resource]
+script = ExtResource("1_qcggo")
+name = "JRNL_NAME_1"
+title = "JRNL_TIT_1"
+text = "JRNL_CONT_1"
+paper_image = ExtResource("1_rbhft")
+metadata/_custom_type_script = "uid://ccc5ut1f7f8en"

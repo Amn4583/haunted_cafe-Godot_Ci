@@ -1,0 +1,126 @@
+[gd_scene load_steps=12 format=3 uid="uid://cb5r1efhaqjwx"]
+
+[ext_resource type="Script" uid="uid://cymc110jnquv6" path="res://Scripts/journal_ui.gd" id="1_j134b"]
+[ext_resource type="Shader" uid="uid://c7y2d5rnw4vcb" path="res://Shaders/blur_tint.gdshader" id="2_qysb5"]
+[ext_resource type="FontFile" uid="uid://cmif16a78f05y" path="res://Fonts/VCR_OSD_MONO_1.001.ttf" id="4_j134b"]
+[ext_resource type="AudioStream" uid="uid://bnpnb06m0kv3q" path="res://Sfx/Effects/page-turn-305789.mp3" id="5_e5wfp"]
+[ext_resource type="Texture2D" uid="uid://cbtengappqbct" path="res://Assets/UI/title_border.png" id="5_qysb5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcyhq"]
+shader = ExtResource("2_qysb5")
+shader_parameter/blur_amount = 10.0
+shader_parameter/tint_color = Color(0, 0.025840001, 0, 0.70500004)
+
+[sub_resource type="Gradient" id="Gradient_j134b"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.588)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e5wfp"]
+gradient = SubResource("Gradient_j134b")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j134b"]
+font = ExtResource("4_j134b")
+font_size = 25
+font_color = Color(1, 1, 0.58383155, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e5wfp"]
+
+[sub_resource type="Theme" id="Theme_qysb5"]
+VScrollBar/styles/grabber = SubResource("StyleBoxTexture_e5wfp")
+
+[node name="JournalUI" type="CanvasLayer" unique_id=1731499 node_paths=PackedStringArray("image", "title_label", "text_label")]
+script = ExtResource("1_j134b")
+image = NodePath("paper_img")
+title_label = NodePath("Title")
+text_label = NodePath("Content")
+
+[node name="blur_overlay" type="ColorRect" parent="." unique_id=1717097254]
+material = SubResource("ShaderMaterial_fcyhq")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gradient" type="TextureRect" parent="." unique_id=768995706]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_e5wfp")
+
+[node name="paper_img" type="TextureRect" parent="." unique_id=1666725547]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 60.0
+offset_top = 115.0
+offset_right = 539.999
+offset_bottom = 617.0
+grow_horizontal = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="." unique_id=1698667694]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 140.0
+offset_right = -40.0
+offset_bottom = 167.0
+grow_horizontal = 2
+text = "Letter from Maya :"
+label_settings = SubResource("LabelSettings_j134b")
+
+[node name="Content" type="RichTextLabel" parent="." unique_id=1606573681]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 180.0
+offset_right = -40.0
+offset_bottom = 593.0
+grow_horizontal = 2
+theme = SubResource("Theme_qysb5")
+theme_override_fonts/normal_font = ExtResource("4_j134b")
+theme_override_font_sizes/normal_font_size = 23
+bbcode_enabled = true
+text = "I can still hear the tone.. Even if the phone is unplugged."
+
+[node name="BackBtn" type="Button" parent="." unique_id=1820807370]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -181.0
+offset_top = -120.0
+offset_right = -81.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("4_j134b")
+theme_override_font_sizes/font_size = 22
+text = "Back"
+flat = true
+
+[node name="PaperSound" type="AudioStreamPlayer" parent="." unique_id=169843374]
+stream = ExtResource("5_e5wfp")
+volume_db = -20.0
+
+[node name="border" type="TextureRect" parent="." unique_id=1701145735]
+modulate = Color(1, 1, 1, 0.85)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -586.0
+offset_top = -100.0
+offset_right = 586.0
+offset_bottom = 239.13574
+grow_horizontal = 2
+texture = ExtResource("5_qysb5")
+expand_mode = 1
