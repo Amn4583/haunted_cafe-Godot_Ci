@@ -1,96 +1,33 @@
-name: Export Godot Android (4.5)
+name: Android Release Export
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
+    tags:
+      - "v*"
 
 jobs:
-  export-android:
+  android-release:
     runs-on: ubuntu-latest
 
-    env:
-      GODOT_VERSION: "4.5"
-      EXPORT_NAME: "MyGame"
-
     container:
-      image: barichello/godot-ci:4.5
+      image: barichello/godot-ci:4.6.0-rc1
 
     steps:
-      - name: Checkout
+      - name: Checkout project
         uses: actions/checkout@v4
 
-      # -------------------------------
-      # Java (REQUIRED for Android)
-      # -------------------------------
-      - name: Install Java 17
+      - name: Export Android Release
         run: |
-          apt-get update
-          apt-get install -y openjdk-17-jdk
+          mkdir -p build
+          godot --headless --export-release "Android" build/android-release.apk
+        env:
+          GODOT_ANDROID_KEYSTORE_PATH: release.keystore
+          GODOT_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          GODOT_ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          GODOT_ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Set JAVA_HOME
-        run: |
-          echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
-          echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
-
-      # -------------------------------
-      # Android SDK + NDK
-      # -------------------------------
-      - name: Install Android SDK Command-line tools
-        run: |
-         mkdir -p $HOME/Android/Sdk
-         cd $HOME/Android/Sdk
-
-         wget https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip -O cmdline.zip
-
-         unzip -q cmdline.zip -d temp_cmdline
-
-         mkdir -p cmdline-tools/latest
-         mv temp_cmdline/cmdline-tools/* cmdline-tools/latest/
-
-         rm -rf temp_cmdline cmdline.zip
-         
-      - name: Set Android environment variables
-        run: |
-          echo "ANDROID_SDK_ROOT=$HOME/Android/Sdk" >> $GITHUB_ENV
-          echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
-          echo "PATH=$PATH:$HOME/Android/Sdk/cmdline-tools/latest/bin:$HOME/Android/Sdk/platform-tools" >> $GITHUB_ENV
-
-      - name: Accept Android licenses
-        run: yes | sdkmanager --licenses
-
-      - name: Install Android SDK components
-        run: |
-          sdkmanager \
-            "platform-tools" \
-            "platforms;android-33" \
-            "build-tools;33.0.2" \
-            "ndk;25.2.9519653"
-
-      # -------------------------------
-      # Godot Export Templates
-      # -------------------------------
-      - name: Setup Godot export templates
-        run: |
-          mkdir -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
-             ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-
-      # -------------------------------
-      # Export Android APK
-      # -------------------------------
-      - name: Export Android APK
-        run: |
-          mkdir -p build/android
-          godot --headless --verbose \
-            --export-release "Android" \
-            "build/android/${EXPORT_NAME}.apk"
-
-      # -------------------------------
-      # Upload Artifact
-      # -------------------------------
       - name: Upload Android build
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.EXPORT_NAME }}-android
-          path: build/android/
+          name: android-release
+          path: build/
